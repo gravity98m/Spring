@@ -1,4 +1,5 @@
-Spring Framework
+
+@2@Spring Framework
 
  4버전 	->  5버전
  xml 파일 -> java파일
@@ -71,12 +72,40 @@ Spring(Legacy)  vs Spring Boot
    * Maven(빌드도구) : 프로젝트에 필요한 라이브러리(의존적인 라이브러리)를 
    						자동으로 관리해주는 도구
 
+   *﻿ Junit에서 제공되는 어노테이션
+	@Test : 테스트를 수행해야하는 동작(메서드) 위에 동작
+		>> Junit 실행 시 @Test 검색있을 경우 테스트용 코드로 인식 후 테스트 진행( 메인메서드와 서버 없이 가능)
+	@Before : 테스트 이전에 미리 준비되어야 하는 정보들을 담은 메서드 표시
+		>> @Test 코드 이전에 무조건 실행함
+	@After : 테스트 이후에 수행해야하는 동작 표시
+		>> @Test 코드 이후에 실행
+
+﻿
+	* 프로젝트의 구성
+	1) Presentation Layer : UI 계층에 필요한 정보들을 구성(웹/모바일)
+	2) Business Logic Layer(Service Layer) : 서비스 계층, 고객의 요구사항을 처리하는 영역
+	3) Data Access Layer(Persistence Layer) : 데이터 처리 담당하는 계층(DAO) - 영속성
+	4) DB
+	
+	JSP-MVC
+	요청 -> 컨트롤러 - 모델 - DAO(DB)
+				|
+				뷰
+				
+	SPRING-MVC
+	요청 -> 컨트롤러 - 서비스 - DAO -  MyBatis - DB
+				|
+				뷰
+----------------------|--------|-------------------
+		Presentation	Service		Persistence
 
 
 
-
-
-
+	DAO - SessionTemplate(주입) -  MyBatis - 디비연결정보(DataSource) - DB
+										   - 설정파일
+										   - sql 저장하는 xml파일 (mapper)
+|--------------------------------------------------------------------------|
+									Persistence
 
 
 
