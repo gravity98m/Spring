@@ -23,4 +23,30 @@
 	</bean>
 	<!-- 디비연결정보 객체 -->
 	
+	<!-- sqlSessionFactory 객체 (디비연결,mybatis설정,sql-mapper설정) -->
+	<bean id="sqlSessionFactory" 
+		  class="org.mybatis.spring.SqlSessionFactoryBean">
+		  <!-- 디비연결정보 -->
+		  <property name="dataSource" ref="dataSource"/>
+		  <!-- mybatis설정 정보 -->
+		  <property name="configLocation"
+		  			value="classpath:/mybatis-config.xml"/> <!-- *-config.xml  -->
+		  <!-- mapper 설정 정보  -->
+		  <property name="mapperLocations"
+		  			value="classpath:mappers/**/*Mapper.xml"/>
+		  			
+	</bean>	
+	<!-- sqlSessionFactory 객체 (디비연결,mybatis설정,sql-mapper설정) -->
+	
+	<!-- sqlSessionTemplate 객체 (디비연결,mybatis설정,sql-mapper설정,자원해제)  -->
+	<bean id="sqlSession" 
+		  class="org.mybatis.spring.SqlSessionTemplate"
+		  destroy-method="clearCache">
+		  <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>
+	<!-- sqlSessionTemplate 객체 (디비연결,mybatis설정,sql-mapper설정,자원해제)  -->
+
+	<!-- 디비관련 패키지(persistence)를 연결 -->
+	<context:component-scan base-package="com.itwillbs.persistence" />
+	
 </beans>
