@@ -9,6 +9,22 @@
   	<select id="getTime" resultType="string">
   		select now()
   	</select>
-  
-  
+  	
+  	<!-- 회원가입 -->
+	<insert id="createMember">
+		insert into tbl_member(userid,userpw,username,useremail) 
+		values(#{userid},#{userpw},#{username},#{useremail})
+	</insert>
+	
+	<!-- 특정회원정보 조회 -->
+	<select id="getMember" resultType="com.itwillbs.domain.MemberVO">
+		select * from tbl_member where userid=#{userid} 
+	</select>
+	
+	<!-- 로그인 처리 -->
+	<select id="loginmember" resultType="com.itwillbs.domain.MemberVO">
+		select * from tbl_member
+		where userid=#{userid} and userpw=#{userpw}
+	</select>	
+	
   </mapper>

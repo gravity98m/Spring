@@ -1,5 +1,4 @@
-
-@2@Spring Framework
+0Spring Framework
 
  4버전 	->  5버전
  xml 파일 -> java파일
@@ -69,46 +68,122 @@ Spring(Legacy)  vs Spring Boot
    - Spring Web : 웹 애플리케이션 개발에 필요한 내용 제공
    - Spring MVC : MVC 구현에 필요한 기능 제공
     
-   * Maven(빌드도구) : 프로젝트에 필요한 라이브러리(의존적인 라이브러리)를 
-   						자동으로 관리해주는 도구
+   * Maven(빌드도구) : 프로젝트에 필요한 라이브러리(의존적인 라이브러리)
+               를 자동으로 관리해주는 도구
 
-   *﻿ Junit에서 제공되는 어노테이션
-	@Test : 테스트를 수행해야하는 동작(메서드) 위에 동작
-		>> Junit 실행 시 @Test 검색있을 경우 테스트용 코드로 인식 후 테스트 진행( 메인메서드와 서버 없이 가능)
-	@Before : 테스트 이전에 미리 준비되어야 하는 정보들을 담은 메서드 표시
-		>> @Test 코드 이전에 무조건 실행함
-	@After : 테스트 이후에 수행해야하는 동작 표시
-		>> @Test 코드 이후에 실행
 
-﻿
-	* 프로젝트의 구성
-	1) Presentation Layer : UI 계층에 필요한 정보들을 구성(웹/모바일)
-	2) Business Logic Layer(Service Layer) : 서비스 계층, 고객의 요구사항을 처리하는 영역
-	3) Data Access Layer(Persistence Layer) : 데이터 처리 담당하는 계층(DAO) - 영속성
-	4) DB
+	* Junit에서 제공되는 어노테이션
+	@Test : 테스트를 수행해야하는 동작(메서드)위에 작성
+	     => Junit 실행시 @Test 검색 있을경우 테스트용 코드로 인식 후 테스트 진행
 	
-	JSP-MVC
-	요청 -> 컨트롤러 - 모델 - DAO(DB)
-				|
-				뷰
-				
-	SPRING-MVC
-	요청 -> 컨트롤러 - 서비스 - DAO -  MyBatis - DB
-				|
-				뷰
-----------------------|--------|-------------------
-		Presentation	Service		Persistence
+	@Before : 테스트 이전에 미리 준비되어야 하는 정보들을 담은 메서드 표시
+	      => @Test코드 이전에 무조건 실행함.
+	
+	@After : 테스트 이후에 수행해야하는 동작 표시
+	      => @Test코드 이후에 실행.      
+	      
+	
+
+  
+  * 프로젝트의 구성
+  1) Presentation Layer : UI 계층에  필요한 정보들을 구성(웹/모바일)
+  2) Business Logic Layer(Service Layer) : 서비스 계층, 고객의 요구사항을 처리하는 영역 
+  3) Data Access Layer(Persistence Layer) : 데이터 처리 담당하는 계층(DAO)
+  4) DB
+  
+  JSP-MVC
+  요청 -> 컨트롤러 - 모델 - DAO(DB)
+			|
+			뷰
+			
+  SPRING-MVC
+  요청 -> 컨트롤러 - 서비스 - DAO - MyBatis - DB
+			|
+			뷰
+ ------------------|---------|----------------------
+   Presentation 	 Service	   Persistence
 
 
 
-	DAO - SessionTemplate(주입) -  MyBatis - 디비연결정보(DataSource) - DB
-										   - 설정파일
-										   - sql 저장하는 xml파일 (mapper)
-|--------------------------------------------------------------------------|
-									Persistence
+   DAO - SessionTemplate(주입) - MyBatis - 디비연결정보(DataSource) - DB
+   										 - 설정파일
+   										 - sql 저장하는 xml파일 (mapper)
+|-------------------------------------------------------------------------|
+	 Persistence
+	
 
-
-
-
-
+  * 마이바티스(MyBatis)
+  마이바티스는 개발자가 지정한 SQL, 저장프로시저 그리고 몇가지 고급 매핑을 지원하는
+  퍼시스턴스 프레임워크이다. 마이바티스는 JDBC로 처리하는 상당부분의 코드와 
+  파라미터 설정및 결과 매핑을 대신해준다. 마이바티스는 데이터베이스 레코드에 
+  원시타입과 Map 인터페이스 그리고 자바 POJO 를 설정해서 매핑하기 위해 XML과 
+  애노테이션을 사용할 수 있다.
+   https://mybatis.org/mybatis-3/ko/getting-started.html
+   
+   1) 간결한 코드 처리 (try-catch-finally,pstmt-???,resultset-??)
+   2) SQL의 분리 (xml방식,어노테이션 방식)
+   3) Spring과의 연동이 편리
+   4) 동적 SQL 제공
+   
+   
+   * SqlSessionFactory 객체 (pstmt 역활)
+    -> 디비연결(Connection) 처리, SQL 실행
+    
+    
+    iBatis -> MyBatis 
+    - 개발 어노테이션 지원
+    - 인터페이스 활용한 쿼리
+    
+    1) xml파일 사용-SQL문 작성, DAO파일에서 xml파일 호출
+     장점 : 별도의 파일사용. 유지보수에 유리함
+     단점 : 관리해야하는 코드의 양이 증가, 복잡성이 증가
+    
+    2) 어노테이션을 사용한 SQL 구문작성(인터페이스 사용)
+     장점 : DAO파일이 없이 개발가능 => 생산성 증가
+     단점 : 코드의 수정이 발생시 마다 컴파일 수행
+    
+    3) 인터페이스 + xml파일 동시에 사용
+     장점 : 간단한 SQL 구문 어노테이션, 복잡한 SQL구문은 XML로 처리(유연한 처리)
+     단점 : 개발하는 사람에 따라서 능력차이가 남
+     
+     
+     
+	MyBatis - xml파일을 사용해서 SQL 실행방법
+	
+	- 테이블 생성 및 개발준비     
+	- 도메인 객체(DTO) 설계 및 생성(클래스 파일)
+	- DAO 인터페이스 생성
+	- 인터페이스 안에 필요한 기능을 정의 (추상메서드)
+	- XML mapper 생성 
+		- mapper DTD 추가
+		- mapper의 위치(저장경로) 저장
+		- SQL 구문 작성	
+	- MyBatis와 XML mapper 연결(인식)
+    - DAO 객체 구현(인터페이스 구현)
+    - 해당 메서드 사용해서 동작 호출
+    - DAO 테스트
+    
+    
+    
+    CREATE TABLE `springdb`.`tbl_member` (
+  `userid` VARCHAR(50) NOT NULL,
+  `userpw` VARCHAR(45) NOT NULL,
+  `username` VARCHAR(45) NOT NULL,
+  `useremail` VARCHAR(200) NOT NULL,
+  `regdate` TIMESTAMP NULL DEFAULT now(),
+  `updatedate` TIMESTAMP NULL DEFAULT now(),
+  PRIMARY KEY (`userid`),
+  UNIQUE INDEX `useremail_UNIQUE` (`useremail` ASC) VISIBLE);
+    
+    
+    
+    
+    
+        
+   
+   
+  	
+	
+	
+	
 
