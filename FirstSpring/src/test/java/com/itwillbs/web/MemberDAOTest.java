@@ -28,15 +28,15 @@ public class MemberDAOTest {
 
 	
 	// 회원정보저장(Create)
-	//@Test
+	@Test
 	public void createUser() {
 
 		// 회원정보 생성(사용자 입력 정보) // 현재 없는 단계이므로 테스트용으로 만든 상태
 		MemberVO vo = new MemberVO();
-		vo.setUserid("itwill01");
+		vo.setUserid("itwill02");
 		vo.setUserpw("1234");
-		vo.setUsername("사용자01");
-		vo.setUseremail("user@user.com");
+		vo.setUsername("사용자02");
+		vo.setUseremail("user2@user.com");
 		
 		dao.insertMember(vo);
 	}
@@ -51,7 +51,7 @@ public class MemberDAOTest {
 	}
 	
 	// 로그인 처리
-	@Test
+	//@Test
 	public void loginMember() {
 		
 		MemberVO vo = dao.loginMember("admin", "1234");
