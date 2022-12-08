@@ -1,5 +1,7 @@
 package com.itwillbs.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -45,6 +47,34 @@ public class MemverSeviceImpl implements MemberService {
 		
 		return resultVO != null ? true:false;
 	}
+
+
+	@Override
+	public MemberVO getMember(String id) {
+		
+		return dao.getMember(id);
+	}
+
+
+	@Override
+	public Integer updateMember(MemberVO uvo) {
+		mylog.debug(" updateMember(uvo)");
+		return dao.updateMember(uvo);
+	}
+
+	@Override
+	public void removeMember(MemberVO dvo) {
+		dao.removeMember(dvo);
+	}
+
+	@Override
+	public List<MemberVO> getMemberList(String id) {
+		return dao.getMemList(id);
+	}
+
+	
+
+	
 	
 	
 	

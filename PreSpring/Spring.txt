@@ -1,4 +1,4 @@
-0Spring Framework
+Spring Framework
 
  4버전 	->  5버전
  xml 파일 -> java파일
@@ -108,7 +108,7 @@ Spring(Legacy)  vs Spring Boot
    DAO - SessionTemplate(주입) - MyBatis - 디비연결정보(DataSource) - DB
    										 - 설정파일
    										 - sql 저장하는 xml파일 (mapper)
-|-------------------------------------------------------------------------|
+|----------------------|
 	 Persistence
 	
 
@@ -176,10 +176,84 @@ Spring(Legacy)  vs Spring Boot
   UNIQUE INDEX `useremail_UNIQUE` (`useremail` ASC) VISIBLE);
     
     
+    * Bean vs DTO vs VO
+    
+     Bean : 자바 순수 객체 (Plain Old Java Object)
+     
+     DTO : 계층간의 데이터 교환(전송)을 위해서 생성된 객체
+          
+     VO : 값을 가지는 객체      
     
     
+   * 스프링MVC - 컨트롤러 기능
     
+    - 스프링MVC 처리
+      URI를 분석해서 적절한 컨트롤로 연결 (*.me, *.bo....)
+      컨트롤러에 필요한 메서드 호출
+      컨트롤러에 처리결과(데이터)를 뷰페이지로 전달
+      URI에 적절한 뷰페이지 연결
+      적절한 파라미터를 수집(DTO,VO)
+      
+    - 개발자 처리
+      특정 URI에 동작하는 컨트롤러 생성
+      컨트롤러 안에 필요한 결과를 메서드 형태로 구현
+      서비스 객체 생성
+      DAO 객체 생성
+      뷰페이지에서 전달받은 정보 출력
+    
+    
+    * Model 객체  / @ModelAttribute
+    
+    => 정보를 뷰페이지에 전달 (request.setAttribute() 동작)
+    
+    Model 객체(model.addAttribute()) : 메서드 단위 실행
+             key/value 쌍으로 정보를 객체에 저장후 전달
+    
+    @ModelAttribute : 컨트롤러 단위 실행
+             전달된 파라미터의 타입에 맞는 객체를 생성 후
+             Model객체에 다시 저장(덮어쓰기)
+             
+    
+   * 컨트롤러는 메서드를 통해서 동작 구현
+* 메서드 리턴 타입에 따른 뷰를 연결
+    void -> 호출 주소의 이름과 같은 뷰
+    String -> 리턴된 문자열이름과 같은 뷰
+* 파라미터 (@ModelAttribute)
+  객체  Model
+  => 뷰페이지에 정보를 각각 전달
+* 페이지 이동시엔 redirect: 페이지 이동
+  RedirectAttributes 객체 ( 일회성 데이터 전달) 
         
+   
+   * 각 영역별 개발 준비사항
+   데이터베이스
+   		디비 생성, 테이블 생성, 더미데이터 준비
+   
+   스프링MVC
+   		프로젝트의 패키지 구조 설계(코드규칙 설계)
+   		각각 파트 분배
+   		테스트 동작 구현
+   
+   화면
+   		JSP페이지,HTML(JS)페이지 구분
+   		페이지 이동간의 경로설정(절대경로,상대경로)
+   		
+   
+   * 비지니스 계층(서비스) : 클라이언트의 요구사항을 구현 하는 영역
+   => 컨트롤러 - DAO사이의 접착제(완충제)
+   
+   
+   * log4j 로그 레벨정보
+    => 설정한 레벨보다 높은 레벨의 로그만 출력
+   
+  	FATAL (6)	: 시스템 차원의 심각한 문제발생
+  	ERROR		: 실행중 문제가 발생상태 확인
+  	WARN		: 시스템의 오류원인 출력
+  	INFO		: 로그인여부,실행 여부 (실제 운영필요한 정보)
+  	DEBUG		: 디버깅 용도로 사용
+  	TRACE (1)	: 상세한 로그정보 출력
+   
+   		
    
    
   	
