@@ -30,6 +30,48 @@
 <input type="submit" value="인증하고 토큰발급">
 </form>
 
+<!-- 카드 등록 인증 요청 작업 수행 -->
+<form action="https://testapi.openbanking.or.kr/oauth/2.0/authorize" method="get">
+<!-- 고정값: code -->
+<input type="hidden" name="response_type" value="code">
+<!-- 오픈뱅킹에서 발급한 이용기관 앱의 Client ID -->
+<input type="hidden" name="client_id" value="d7841ed1-9c06-4763-9143-8a8dd6a75e92">
+<!-- 사용자인증이 성공하면 이용기관으로 연결되는 URL  callback_uri -->
+<input type="hidden" name="redirect_uri" value="http://localhost:8080/fintech/callback">
+<!-- Access Token 권한 범위 -->
+<input type="hidden" name="scope" value="cardinfo">
+<!-- CSRF 보안위협에 대응하기 위해 이용기관이 세팅하는 난수값 (32자리) -->
+<input type="hidden" name="state" value="12345678123456781234567812345678">
+<!-- 사용자인증타입 구분주 2)(0:최초인증, 1:재인증, 2:인증생략) -->
+<input type="hidden" name="auth_type" value="0">
+<!-- 등록정보 종류 “A” : 계좌  “C” : (신용/체크)카드   “F” : 선불 -->
+<input type="hidden" name="register_info" value="C">
+
+<input type="submit" value="카드 인증하고 토큰발급">
+</form>
+
+<!-- 카드 등록 인증 요청 작업 수행 -->
+<form action="https://testapi.openbanking.or.kr/oauth/2.0/authorize" method="get">
+<!-- 고정값: code -->
+<input type="hidden" name="response_type" value="code">
+<!-- 오픈뱅킹에서 발급한 이용기관 앱의 Client ID -->
+<input type="hidden" name="client_id" value="d7841ed1-9c06-4763-9143-8a8dd6a75e92">
+<!-- 사용자인증이 성공하면 이용기관으로 연결되는 URL  callback_uri -->
+<input type="hidden" name="redirect_uri" value="http://localhost:8080/fintech/callback">
+<!-- Access Token 권한 범위 -->
+<input type="hidden" name="scope" value="fintechinfo">
+<!-- CSRF 보안위협에 대응하기 위해 이용기관이 세팅하는 난수값 (32자리) -->
+<input type="hidden" name="state" value="12345678123456781234567812345678">
+<!-- 사용자인증타입 구분주 2)(0:최초인증, 1:재인증, 2:인증생략) -->
+<input type="hidden" name="auth_type" value="0">
+<!-- 등록정보 종류 “A” : 계좌  “C” : (신용/체크)카드   “F” : 선불 -->
+<input type="hidden" name="register_info" value="F">
+
+<input type="submit" value="선불 인증하고 토큰발급">
+</form>
+
+<!-- api_tran_id => 거래고유번호 => 랜덤 -->
+
 </body>
 </html>
 

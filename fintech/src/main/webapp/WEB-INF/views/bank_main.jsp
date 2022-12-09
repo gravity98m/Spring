@@ -17,6 +17,19 @@
 <h2>user_seq_no : ${responseTokenVO.user_seq_no }</h2>
 
 <h2>사용자정보 조회</h2>
+<form action="userInfo" method="get">
+	<input type="hidden" name="access_token" value="${responseTokenVO.access_token }">
+	<input type="hidden" name="user_seq_no" value="${responseTokenVO.user_seq_no }<">
+	<input type="submit" value="사용자정보조회">
+</form>
+
 <h2>등록계좌조회</h2>
+<form action="accountList" method="get">
+	<input type="hidden" name="access_token" value="${responseTokenVO.access_token }">
+	<input type="hidden" name="user_seq_no" value="${responseTokenVO.user_seq_no }<">
+	<input type="hidden" name="include_cancel_yn" value="Y">
+	<input type="hidden" name="sort_order" value="D">
+	<input type="submit" value="등록계좌조회">
+</form>
 </body>
 </html>

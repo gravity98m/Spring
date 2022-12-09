@@ -7,8 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.itwillbs.fintech.service.OpenBankingService;
+import com.itwillbs.fintech.vo.AccountSearchRequestVO;
+import com.itwillbs.fintech.vo.AccountSearchResponseVO;
 import com.itwillbs.fintech.vo.RequestTokenVO;
 import com.itwillbs.fintech.vo.ResponseTokenVO;
+import com.itwillbs.fintech.vo.UserInfoRequestVO;
+import com.itwillbs.fintech.vo.UserInfoResponseVO;
 
 @Controller
 public class OpenBankingController {
@@ -35,6 +39,34 @@ public class OpenBankingController {
 		model.addAttribute("responseTokenVO", responseTokenVO);
 		
 		return "bank_main";
+	}
+	
+	//사용자 정보 조회
+	@RequestMapping(value = "/userInfo", method = RequestMethod.GET)
+	public String getUserInfo(UserInfoRequestVO userInfoRequestVO, Model model) throws Exception{
+		
+		//토큰발급 => 처리 메서드 호출 리턴 받기
+		UserInfoResponseVO userInfo = openBankingService.findUser(userInfoRequestVO);
+		
+		//정보를 들고  bank_main.jsp 이동
+		model.addAttribute("userInfo", userInfo);
+		model.addAttribute("access_token", userInfoRequestVO.getAccess_token());
+		
+		return "account/user_info";
+	}
+	
+	//등록계좌 조회
+	@RequestMapping(value = "/accountList", method = RequestMethod.GET)
+	public String getAccountList(AccountSearchRequestVO accountSearchRequestVO, Model model) throws Exception{
+		
+		//토큰발급 => 처리 메서드 호출 리턴 받기
+		AccountSearchResponseVO accountList = openBankingService.findAccount(accountSearchRequestVO);
+		
+		//정보를 들고  bank_main.jsp 이동
+		model.addAttribute("accountList", accountList);
+		model.addAttribute("access_token", accountSearchRequestVO.getAccess_token());
+		
+		return "account/list";
 	}
 
 }
