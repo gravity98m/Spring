@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 // @Repository -> bean형태로 만들어줌. root-context에 등록됨 
 
 import com.itwillbs.domain.BoardVO;
+import com.itwillbs.domain.Criteria;
 
 @Repository 
 public class BoardDAOImpl implements BoardDAO {
@@ -77,9 +78,31 @@ public class BoardDAOImpl implements BoardDAO {
 		sqlSession.delete(NAMESPACE+".deleteBoard", bno);
 		
 	}
-	
-	
 
+	@Override
+	public List<BoardVO> getListPage(Integer page) throws Exception {
+		
+		// 페이지정보 계산
+		if(page < 0) {
+			page = 1;
+		}
+		
+		// 디비에서 10개씩 조회
+		// 1 - 0 / 2 - 10 / 3 - 20 / 4 - 30 / 5 - 40
+		page = (page -1) * 10;
+		
+		return sqlSession.selectList(NAMESPACE+".listPage", page);
+	}
+
+	@Override
+	public List<BoardVO> getListPage(Criteria cri) throws Exception {
+		mylog.debug(" getListPage(Criteria cri) 페이징처리 ");
+		
+		return sqlSession.selectList(NAMESPACE+".listPage2", cri);
+	}
+	
+	
+	
 	
 	
 	

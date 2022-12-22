@@ -1,5 +1,7 @@
 package com.itwillbs.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
 import javax.inject.Inject;
 
 import org.junit.Test;
@@ -9,6 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.itwillbs.domain.BoardVO;
+import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.PageVO;
 import com.itwillbs.persistence.BoardDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -24,10 +29,52 @@ public class BoardDAOTest {
 	@Inject
 	private BoardDAO dao;
 	
-	@Test
+	//@Test
 	public void 디비연결시간정보() {
 		mylog.debug(dao.getTime());
 	}
 	
+	//@Test
+	public void 페이징처리_게시판리스트() {
+		try {
+			for(BoardVO vo :dao.getListPage(1)) {
+				mylog.debug(vo.getBno()+" : "+vo.getTitle());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
+	//@Test
+	public void cri테스트() {
+		// 임시 페이지처리 객체
+		Criteria cri = new Criteria(); // 1 , 10 
+		cri.setPage(1);
+		//cri.setperPageNum(20);
+		
+		try {
+			for(BoardVO vo :dao.getListPage(cri)) {
+				mylog.debug(vo.getBno()+" : "+vo.getTitle());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void pageVO_테스트() {
+		
+		Criteria cri = new Criteria(); // 1페이지, 10개씩 출력
+
+		PageVO vo = new PageVO();
+		vo.setCri(cri);
+		vo.setTotalCount(100);
+			
+		try {
+			//dao.getListPage(cri);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 }
