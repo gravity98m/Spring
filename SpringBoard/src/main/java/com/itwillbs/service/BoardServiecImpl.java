@@ -66,6 +66,12 @@ public class BoardServiecImpl implements BoardService{
 		return dao.getListPage(cri);
 	}
 
+	@Override
+	public int totalCnt() throws Exception {
+		return dao.totalCnt();
+	}
+
+	
 	
 	
 	

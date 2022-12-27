@@ -100,6 +100,11 @@ public class BoardDAOImpl implements BoardDAO {
 		
 		return sqlSession.selectList(NAMESPACE+".listPage2", cri);
 	}
+
+	@Override
+	public int totalCnt() throws Exception {
+		return sqlSession.selectOne(NAMESPACE+".countBoard");
+	}
 	
 	
 	
