@@ -1,0 +1,63 @@
+SpringSecurity.txt
+
+ P606~
+ * Spring Web Security
+   => 각 페이지마다 접근권한 생성 (로그인 세션값/관리자 아이디체크)
+
+ 스프링시큐리티 : 서블릿에서 제공하는 필터,인터셉터를 사용해서
+                  필요한 동작을 처리하는것
+                  
+       필터 :  특정 서블릿(클래스), 컨트롤러에 접근하기 전에 전처리 작업하는 곳
+        => 스프링과 상관X (순수 서블릿자원)
+       인터셉터 :   특정 서블릿(클래스), 컨트롤러에 접근하기 전에 전처리 작업하는 곳             
+        => 스프링과 관련있음 (스프링정보 사용가능)
+    
+
+    * 필수 라이브러리 
+	spring-security-web
+	spring-security-config
+	spring-security-core
+	 (위 3개의 버전이 동일해야함)
+	
+	spring-security-taglibs
+
+   * 인증-Authentication : 나 자신을 증명하는것(다른사람에게 증명할 자료를 제공)
+   * 허가(권한부여)-Authorization : 남이 나에게 자격을 부여하는 것
+   
+   * AuthenticationManager(인증메니저) - 스프링에서 제공
+
+
+
+    * username : 시큐리티에서는 userid의 의미로 사용
+    * User : 시큐리티에서는 인증정보+권한을 포함한 객체 
+    
+    
+    * 스프링 시큐리티에서는 POST방식으로 정보 전달시 반드시 CSRF토큰 사용
+      => CSRF 토큰 : 사이트간 위조방지를 위한 토큰값
+      
+      - 서버에서 정보요청을 받아들일때 사전조건검사 X 
+            
+    * CSRF(Cross-Site Request Forgery) 공격&토큰
+    
+       A(공격자)  -> B 메일 -> 링크 클릭( B 사용자가 로그인한 페이지 정보 해킹 )
+                  <= B 토큰정보 가져옴
+                
+                
+    * 사용자 정보
+    
+    create table users(
+    	username varchar(50) primary key,
+    	password varchar(50) not null,
+    	enable varchar(1) default '1'
+    	); 
+    	
+    * 인증 정보
+    
+    create table authorities(
+    	username varchar(50) not null,
+    	authority varchar(50) not null,
+    	constraint fk_authorites_users foreign key(username) references users(username)
+    	);
+    
+    * 인덱스	
+    create unique index ix_auth_username on authorities (username, authority);

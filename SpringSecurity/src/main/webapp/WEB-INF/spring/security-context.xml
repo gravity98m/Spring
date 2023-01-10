@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- 접근 권한 에러처리 객체 생성  -->
+	<bean id="customAccessDeniedHandler" class="com.itwillbs.security.CustomAccessDeniedHandler"/>
+	
+	<!-- 로그인 성공시 페이지 이동 처리객체  -->
+	<bean id="customLoginSuccess" class="com.itwillbs.security.CustomLoginSuccessHandler"></bean>
+	
+	<!-- 비밀번호 암호화 없이 처리객체  -->
+<!-- 	<bean id="customNoPassword" class="com.itwillbs.security.CustomNoPasswordEncoder"></bean> -->
+	
+	<!-- 비밀번호 암호화 처리 객체 -->
+	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
+	
+	<!-- security-context.xml 시큐리티 관련 설정정보 -->
+		
+	<security:http>
+		<security:intercept-url pattern="/sec/all" access="permitAll" />
+		<security:intercept-url pattern="/sec/member" access="hasRole('ROLE_MEMBER')" />
+		<security:intercept-url pattern="/sec/admin" access="hasRole('ROLE_ADMIN')" />
+		
+		<security:intercept-url pattern="/order/*" access="hasRole('ROLE_MEMBER')" />
+		
+<!-- 		<security:form-login /> (기본값) -->
+<!-- 		<security:form-login login-page="/customLogin"/> -->
+		
+		<!-- 토큰인증방식을 사용하지 않도록 함 -->
+<!-- 		<security:csrf disabled="true"/> -->
+
+		<security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess"/>
+		
+		<!-- 접근권한 오류 403 발생시 페이지 이동  -->
+<!-- 		<security:access-denied-handler error-page="/accessErr"/> -->
+			<security:access-denied-handler ref="customAccessDeniedHandler"/>		
+	</security:http>
+
+	<!-- 인증 관리  -->
+	<security:authentication-manager>
+		<security:authentication-provider>
+		
+			<security:jdbc-user-service data-source-ref="dataSource"/>
+		
+<!-- 			<security:password-encoder ref="customNoPassword"/> -->
+			<security:password-encoder ref="bcryptPasswordEncoder"/>
+			
+			<!-- <security:user-service >
+				
+				<security:user name="member" password="{noop}1234" authorities="ROLE_MEMBER"/>
+				<security:user name="admin" password="{noop}1234" authorities="ROLE_ADMIN, ROLE_MEMBER"/>
+				
+			</security:user-service> -->
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+</beans>
